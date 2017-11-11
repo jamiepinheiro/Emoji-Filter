@@ -1,6 +1,8 @@
 // Our Twitter library
 var Twit = require('twit');
 
+const fs = require('fs');
+
 // We need to include our configuration file
 var T = new Twit(require('./config.js'));
 
@@ -20,6 +22,7 @@ function retweetLatest() {
 			status: 'domeh'
 		}
 		console.log(data.statuses[0].entities.media[0].media_url);
+		fs.appendFile('image-link.txt', data.statuses[0].entities.media[0].media_url);
 		// ...and then we tell Twitter we want to retweet it!
 		T.post('statuses/update', tweetId, function (error, tweet, response) {
 			if (response) {
@@ -42,4 +45,4 @@ function retweetLatest() {
 retweetLatest();
 // ...and then every hour after that. Time here is in milliseconds, so
 // 1000 ms = 1 second, 1 sec * 60 = 1 min, 1 min * 60 = 1 hour --> 1000 * 60 * 60
-setInterval(retweetLatest, 1000 * 60 * 60);
+setInterval(retweetLatest, 5000);
