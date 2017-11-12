@@ -8,6 +8,8 @@ for(var i = 0; i < emotions.length; i++){
     emojis[emotions[i]] = emoji;
 }
 
+sendToApi(window.location.href.split("?")[1]);
+
 function sendToApi(url){
     var params = {};
 
@@ -65,25 +67,4 @@ function wait(ms){
    while(end < start + ms) {
      end = new Date().getTime();
   }
-}
-
-updateImgs();
-
-function updateImgs(){
-
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", "/js/twitter.txt", false);
-    rawFile.onreadystatechange = function(){
-        if(rawFile.readyState === 4){
-            if(rawFile.status === 200 || rawFile.status == 0){
-                var allText = rawFile.responseText.split("\n");
-                for(var i = 0; i < allText.length; i++){
-                    if(allText[i] !== ""){
-                        sendToApi(allText[i]);
-                    }
-                }
-            }
-        }
-    }
-    rawFile.send(null);
 }
